@@ -1,4 +1,2 @@
 # MvpDaggerSample
-
-MVP Pattern
-Dagger 2
+Sample project to demonstrate MVP Pattern and Dagger 2
