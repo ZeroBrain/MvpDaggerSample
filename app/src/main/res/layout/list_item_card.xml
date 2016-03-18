@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/item_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        card_view:cardCornerRadius="1dp"
+        card_view:contentPadding="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/item_card_image"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                tools:src="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:id="@+id/item_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/item_card_image"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_title"
+                tools:text="NaverCast Cast Title" />
+
+            <TextView
+                android:id="@+id/item_card_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_card_title"
+                android:layout_toRightOf="@+id/item_card_image"
+                android:textColor="@color/gray_font"
+                android:textSize="@dimen/font_size_description"
+                tools:text="sub_title" />
+
+            <TextView
+                android:id="@+id/item_card_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_card_sub_title"
+                android:layout_toRightOf="@+id/item_card_image"
+                android:textColor="@color/gray_font"
+                android:textSize="@dimen/font_size_description"
+                tools:text="Description" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
