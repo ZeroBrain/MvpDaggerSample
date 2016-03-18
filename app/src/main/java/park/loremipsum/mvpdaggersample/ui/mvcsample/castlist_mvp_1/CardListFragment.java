@@ -1,4 +1,4 @@
-package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvp_1;
+package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvp_1;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +15,8 @@ import butterknife.Bind;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.ui.card.CardActivity;
-import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.CastCardAdapter;
-import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.utils.EventBusProvider;
+import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.CastCardAdapter;
+import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusProvider;
 
 public class CardListFragment extends Fragment implements CardListPresenter.ViewInterface {
     public static final String TAG = CardListFragment.class.getSimpleName();

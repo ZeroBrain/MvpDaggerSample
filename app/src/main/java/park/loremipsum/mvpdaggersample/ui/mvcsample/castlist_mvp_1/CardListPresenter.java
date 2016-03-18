@@ -1,4 +1,4 @@
-package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvp_1;
+package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvp_1;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.utils;
+package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;

@@ -1,4 +1,4 @@
-package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvp_2;
+package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,11 +21,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
-import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.utils.EventBusProvider;
+import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusProvider;
 import park.loremipsum.mvpdaggersample.ui.common.RecyclerListAdapter;
 import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.ParcelerImpl;
 
-public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapter.CastCardViewHolder> implements CardListPresenter.ListModelInterface {
+public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapter.CastCardViewHolder> {
     private static final String DATA_SET = "dataSet";
 
     private final Context context;
@@ -35,27 +34,15 @@ public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapt
         this.context = context;
     }
 
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         final ParcelerImpl parceler = new ParcelerImpl();
         outState.putParcelableArrayList(DATA_SET, parceler.parcel(getDataSet()));
     }
 
-    @Override
     public void restoreSavedState(Bundle savedInstanceState) {
         final ArrayList<Parcelable> parceledList = savedInstanceState.getParcelableArrayList(DATA_SET);
         final ParcelerImpl parceler = new ParcelerImpl();
         addAll(parceler.unparcel(CastCard.class, parceledList));
-    }
-
-    @Override
-    public void addCardList(List<CastCard> castCardList) {
-        replace(castCardList);
-    }
-
-    @Override
-    public CastCard getCastAtPosition(int position) {
-        return getItem(position);
     }
 
     @Override
