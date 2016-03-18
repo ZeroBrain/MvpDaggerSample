@@ -1,5 +1,6 @@
-package park.loremipsum.mvpdaggersample.ui.castlist;
+package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.bumptech.glide.Glide;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,65 +21,42 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
+import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.utils.EventBusProvider;
 import park.loremipsum.mvpdaggersample.ui.common.RecyclerListAdapter;
-import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
-import park.loremipsum.mvpdaggersample.util.thirdparty.glide.GlideWrapper;
-import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.Parceler;
+import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.ParcelerImpl;
 
-public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapter.CastCardViewHolder> implements CardListPresenter.ListModelInterface {
+public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapter.CastCardViewHolder> {
     private static final String DATA_SET = "dataSet";
 
-    private final Parceler parceler;
-    private final LayoutInflater layoutInflater;
-    private final GlideWrapper glideWrapper;
-    private final EventBus bus;
+    private final Context context;
 
-    @Inject
-    public CastCardAdapter(Parceler parceler,
-                           GlideWrapper glideWrapper,
-                           LayoutInflater layoutInflater,
-                           EventBus bus) {
-        this.parceler = parceler;
-        this.glideWrapper = glideWrapper;
-        this.layoutInflater = layoutInflater;
-        this.bus = bus;
+    public CastCardAdapter(Context context) {
+        this.context = context;
     }
 
-    //region ListModelInterface
-    @Override
     public void onSaveInstanceState(Bundle outState) {
+        final ParcelerImpl parceler = new ParcelerImpl();
         outState.putParcelableArrayList(DATA_SET, parceler.parcel(getDataSet()));
     }
 
-    @Override
     public void restoreSavedState(Bundle savedInstanceState) {
         final ArrayList<Parcelable> parceledList = savedInstanceState.getParcelableArrayList(DATA_SET);
+        final ParcelerImpl parceler = new ParcelerImpl();
         addAll(parceler.unparcel(CastCard.class, parceledList));
     }
 
     @Override
-    public void addCardList(List<CastCard> castCardList) {
-        replace(castCardList);
-    }
-
-    @Override
-    public CastCard getCastAtPosition(int position) {
-        return getItem(position);
-    }
-    //endregion
-
-    //region RecyclerView.Adapter
-    @Override
     public CastCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.list_item_card, parent, false);
-        return new CastCardViewHolder(view, bus);
+        return new CastCardViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CastCardViewHolder holder, int position) {
         final CastCard card = getItem(position);
         final String thumbnailUrl = card.getThumbnailUrl();
-        glideWrapper.load(thumbnailUrl, holder.image);
+        Glide.with(context).load(thumbnailUrl).into(holder.image);
         final String title = card.getCardTitle();
         holder.title.setText(title);
         final String subTitle = card.getSubTitle();
@@ -87,7 +64,6 @@ public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapt
         final String author = card.getAuthorName();
         holder.description.setText(author);
     }
-    //endregion
 
     public static class CastCardViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.item_card_image)
@@ -99,18 +75,15 @@ public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapt
         @Bind(R.id.item_card_description)
         TextView description;
 
-        private final EventBus bus;
-
-        public CastCardViewHolder(View itemView, EventBus bus) {
+        public CastCardViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.bus = bus;
         }
 
         @OnClick(R.id.item_card_view)
         void onClick() {
             final int position = getAdapterPosition();
-            bus.post(new OnClickEVent(position));
+            EventBusProvider.getInstance().post(new OnClickEVent(position));
         }
 
         @AllArgsConstructor(suppressConstructorProperties = true)

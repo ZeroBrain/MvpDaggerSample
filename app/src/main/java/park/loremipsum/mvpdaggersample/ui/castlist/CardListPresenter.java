@@ -1,5 +1,7 @@
 package park.loremipsum.mvpdaggersample.ui.castlist;
 
+import android.os.Bundle;
+
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
@@ -15,27 +17,55 @@ public class CardListPresenter extends BasePresenter {
     @Inject
     ViewInterface viewInterface;
 
+    private ListModelInterface listModelInterface;
+
     @Inject
     public CardListPresenter() {
+    }
+
+    public void init(ListModelInterface listModelInterface, Bundle savedInstanceState) {
+        this.listModelInterface = listModelInterface;
+        if (savedInstanceState != null) {
+            viewInterface.hideProgress();
+            listModelInterface.restoreSavedState(savedInstanceState);
+        } else {
+            viewInterface.showProgress();
+        }
     }
 
     @SuppressWarnings("unused")
     @Subscribe
     public void onFinishCastCardQuery(MainPageParser.CastCardQueryEvent event) {
         final List<CastCard> castCards = event.getCastCards();
-        viewInterface.showCastCards(castCards);
+        listModelInterface.addCardList(castCards);
+        viewInterface.hideProgress();
     }
 
     @SuppressWarnings("unused")
     @Subscribe
     public void onClickCastCard(CastCardAdapter.CastCardViewHolder.OnClickEVent event) {
         final int position = event.getPosition();
-        viewInterface.moveToCastCardDetail(position);
+        final CastCard cast = listModelInterface.getCastAtPosition(position);
+        final String cardTitle = cast.getCardTitle();
+        final String cardUrl = cast.getCategoryAbsHref();
+        viewInterface.showCast(cardTitle, cardUrl);
     }
 
     public interface ViewInterface {
-        void showCastCards(List<CastCard> castCards);
+        void showProgress();
 
-        void moveToCastCardDetail(int position);
+        void hideProgress();
+
+        void showCast(String cardTitle, String cardUrl);
+    }
+
+    public interface ListModelInterface {
+        void onSaveInstanceState(Bundle outState);
+
+        void restoreSavedState(Bundle savedInstanceState);
+
+        void addCardList(List<CastCard> castCardList);
+
+        CastCard getCastAtPosition(int position);
     }
 }

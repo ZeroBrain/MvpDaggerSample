@@ -123,7 +123,7 @@ public class MainActivity extends InjectionActivity {
     private void changeTab(String tabUrl) {
         final CardListFragment cardListFragment =
                 (CardListFragment) getSupportFragmentManager().findFragmentByTag(CardListFragment.TAG);
-        cardListFragment.showLoadingProgress();
+        cardListFragment.showProgress();
 
         final MainHtmlQueryFragment mainHtmlQueryFragment =
                 (MainHtmlQueryFragment) getSupportFragmentManager().findFragmentByTag(MainHtmlQueryFragment.TAG);

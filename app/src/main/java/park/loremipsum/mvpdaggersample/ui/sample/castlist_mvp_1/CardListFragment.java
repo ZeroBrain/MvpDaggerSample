@@ -1,7 +1,9 @@
-package park.loremipsum.mvpdaggersample.ui.castlist;
+package park.loremipsum.mvpdaggersample.ui.sample.castlist_mvp_1;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,35 +11,22 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
-import dagger.Lazy;
-import lombok.Getter;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
-import park.loremipsum.mvpdaggersample.ui.common.BaseFragment;
-import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
+import park.loremipsum.mvpdaggersample.ui.card.CardActivity;
+import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.CastCardAdapter;
+import park.loremipsum.mvpdaggersample.ui.sample.castlist_mvc.utils.EventBusProvider;
 
-public class CardListFragment extends BaseFragment implements CardListPresenter.ViewInterface {
+public class CardListFragment extends Fragment implements CardListPresenter.ViewInterface {
     public static final String TAG = CardListFragment.class.getSimpleName();
-
-    @Inject
-    EventBus bus;
-    @Getter
-    @Inject
-    CardListPresenter presenter;
-
-    @Inject
-    Lazy<CastCardAdapter> lazyAdapter;
-    @Inject
-    Lazy<RecyclerView.LayoutManager> lazyLinearLayoutManager;
 
     @Bind(R.id.card_list)
     RecyclerView recyclerView;
     @Bind(R.id.card_list_loading_progress)
     View loadingProgress;
 
+    private CardListPresenter presenter;
     private CastCardAdapter adapter;
 
     //region Factory
@@ -61,13 +50,34 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupAdapter();
+        presenter = new CardListPresenter(this);
+        if (savedInstanceState != null) {
+            adapter.restoreSavedState(savedInstanceState);
+            hideProgress();
+        } else {
+            presenter.fetchCardList();
+            showProgress();
+        }
+    }
 
-        adapter = lazyAdapter.get();
-        recyclerView.setLayoutManager(lazyLinearLayoutManager.get());
+    private void setupAdapter() {
+        adapter = new CastCardAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+    }
 
-        presenter.init(adapter, savedInstanceState);
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        EventBusProvider.getInstance().unregister(this);
+        super.onPause();
     }
 
     @Override
@@ -80,19 +90,29 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
     //region ViewInterface
     @Override
     public void showProgress() {
-        loadingProgress.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void hideProgress() {
         loadingProgress.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
+    public void hideProgress() {
+        loadingProgress.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showCardList(List<CastCard> castCardList) {
+        adapter.replace(castCardList);
+    }
+
+    @Override
+    public CastCard getCastAtPosition(int position) {
+        return adapter.getItem(position);
+    }
+
+    @Override
     public void showCast(String cardTitle, String cardUrl) {
-//        startActivity(CardActivity.createIntent(getActivity(), cardTitle, cardUrl));
+        startActivity(CardActivity.createIntent(getActivity(), cardTitle, cardUrl));
     }
     //endregion
 }
