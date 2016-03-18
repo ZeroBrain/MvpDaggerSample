@@ -11,6 +11,7 @@ import dagger.Provides;
 import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerFragment;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.glide.GlideWrapper;
+import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.Parceler;
 
 @Module
 public class CardListModule {
@@ -22,10 +23,11 @@ public class CardListModule {
 
     @Provides
     @PerFragment
-    CastCardAdapter provideCastCardAdapter(GlideWrapper glideWrapper,
+    CastCardAdapter provideCastCardAdapter(Parceler parceler,
+                                           GlideWrapper glideWrapper,
                                            LayoutInflater layoutInflater,
                                            EventBus bus) {
-        return new CastCardAdapter(glideWrapper, layoutInflater, bus);
+        return new CastCardAdapter(parceler, glideWrapper, layoutInflater, bus);
     }
 
     @Provides

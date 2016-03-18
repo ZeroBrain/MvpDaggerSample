@@ -5,7 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
 public abstract class RecyclerListAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+
+    @Getter
     private final List<T> dataSet;
 
     public RecyclerListAdapter() {

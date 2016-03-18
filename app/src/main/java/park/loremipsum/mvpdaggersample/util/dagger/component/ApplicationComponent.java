@@ -9,12 +9,14 @@ import park.loremipsum.mvpdaggersample.util.dagger.ActivityModule;
 import park.loremipsum.mvpdaggersample.util.dagger.ApplicationModule;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBusModule;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupModule;
+import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.ParcelerModule;
 
 @Singleton
 @Component(modules = {ApplicationModule.class,
         ParserModule.class,
         EventBusModule.class,
-        JsoupModule.class})
+        JsoupModule.class,
+        ParcelerModule.class})
 public interface ApplicationComponent {
 
     /**

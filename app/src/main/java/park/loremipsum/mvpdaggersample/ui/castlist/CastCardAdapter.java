@@ -1,11 +1,15 @@
 package park.loremipsum.mvpdaggersample.ui.castlist;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -19,19 +23,34 @@ import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.ui.common.RecyclerListAdapter;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.glide.GlideWrapper;
+import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.Parceler;
 
 public class CastCardAdapter extends RecyclerListAdapter<CastCard, CastCardAdapter.CastCardViewHolder> {
+    private static final String DATA_SET = "dataSet";
+
+    private final Parceler parceler;
     private final LayoutInflater layoutInflater;
     private final GlideWrapper glideWrapper;
     private final EventBus bus;
 
     @Inject
-    public CastCardAdapter(GlideWrapper glideWrapper,
+    public CastCardAdapter(Parceler parceler,
+                           GlideWrapper glideWrapper,
                            LayoutInflater layoutInflater,
                            EventBus bus) {
+        this.parceler = parceler;
         this.glideWrapper = glideWrapper;
         this.layoutInflater = layoutInflater;
         this.bus = bus;
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(DATA_SET, parceler.parcel(getDataSet()));
+    }
+
+    public void restoreSavedState(Bundle savedInstanceState) {
+        final ArrayList<Parcelable> parceledList = savedInstanceState.getParcelableArrayList(DATA_SET);
+        addAll(parceler.unparcel(CastCard.class, parceledList));
     }
 
     @Override

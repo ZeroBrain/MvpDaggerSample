@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,8 +35,10 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
 
     @Bind(R.id.card_list)
     RecyclerView recyclerView;
-    @Bind(R.id.card_list_loading_text)
-    TextView loadingText;
+    @Bind(R.id.card_list_loading_progress)
+    View loadingProgress;
+
+    private CastCardAdapter adapter;
 
     //region Factory
     public static CardListFragment instance() {
@@ -61,15 +62,28 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        adapter = lazyAdapter.get();
         recyclerView.setLayoutManager(lazyLinearLayoutManager.get());
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(lazyAdapter.get());
-        loadingText.setText("Loading...");
+        recyclerView.setAdapter(adapter);
+        if (savedInstanceState != null) {
+            adapter.restoreSavedState(savedInstanceState);
+            loadingProgress.setVisibility(View.GONE);
+        } else {
+            loadingProgress.setVisibility(View.VISIBLE);
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        adapter.onSaveInstanceState(outState);
+    }
+
     //endregion
 
     public void showLoadingProgress() {
-        loadingText.setVisibility(View.VISIBLE);
+        loadingProgress.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
     }
 
@@ -78,7 +92,7 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
     public void showCastCards(List<CastCard> castCards) {
         final CastCardAdapter adapter = (CastCardAdapter) recyclerView.getAdapter();
         adapter.replace(castCards);
-        loadingText.setVisibility(View.GONE);
+        loadingProgress.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
     }
 
