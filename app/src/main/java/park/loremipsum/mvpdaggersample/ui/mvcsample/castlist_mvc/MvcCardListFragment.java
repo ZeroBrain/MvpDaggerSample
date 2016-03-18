@@ -1,8 +1,15 @@
-package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvp_2;
+package park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
@@ -15,48 +22,93 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.Bind;
+import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
+import park.loremipsum.mvpdaggersample.ui.card.CardActivity;
+import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusProvider;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapperImpl;
 
-public class CardListPresenter {
+public class MvcCardListFragment extends Fragment {
+    public static final String TAG = MvcCardListFragment.class.getSimpleName();
 
-    private final ViewInterface viewInterface;
-    private final ListModelInterface listModelInterface;
+    @Bind(R.id.card_list)
+    RecyclerView recyclerView;
+    @Bind(R.id.card_list_loading_progress)
+    View loadingProgress;
 
-    public CardListPresenter(ViewInterface viewInterface,
-                             ListModelInterface listModelInterface,
-                             Bundle savedInstanceState) {
-        this.viewInterface = viewInterface;
-        this.listModelInterface = listModelInterface;
+    private MvcCastCardAdapter adapter;
+
+    //region Factory
+    public static MvcCardListFragment instance() {
+        return new MvcCardListFragment();
+    }
+
+    public MvcCardListFragment() {
+        // Default Constructor
+    }
+    //endregion
+
+    //region Life Cycle
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_card_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        adapter = new MvcCastCardAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
         if (savedInstanceState != null) {
-            viewInterface.hideProgress();
-            listModelInterface.restoreSavedState(savedInstanceState);
+            adapter.restoreSavedState(savedInstanceState);
+            loadingProgress.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         } else {
-            viewInterface.showProgress();
-            fetchCardList();
+            loadingProgress.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            CastCardFetchAsyncTask task = new CastCardFetchAsyncTask();
+            task.execute();
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        EventBusProvider.getInstance().unregister(this);
+        super.onPause();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
-        listModelInterface.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+        adapter.onSaveInstanceState(outState);
     }
+    //endregion
 
-    public void fetchCardList() {
-        final CastCardFetchAsyncTask task = new CastCardFetchAsyncTask();
-        task.execute();
-    }
-
+    //region Event
     @SuppressWarnings("unused")
     @Subscribe
     public void onClickCastCard(park.loremipsum.mvpdaggersample.ui.castlist.CastCardAdapter.CastCardViewHolder.OnClickEVent event) {
         final int position = event.getPosition();
-        CastCard cast = listModelInterface.getCastAtPosition(position);
-        final String cardTitle = cast.getCardTitle();
-        final String cardUrl = cast.getCategoryAbsHref();
-        viewInterface.showCast(cardTitle, cardUrl);
+        final CastCard card = ((MvcCastCardAdapter) recyclerView.getAdapter()).getItem(position);
+        final String cardTitle = card.getCardTitle();
+        final String cardUrl = card.getCategoryAbsHref();
+        startActivity(CardActivity.createIntent(getActivity(), cardTitle, cardUrl));
     }
+    //endregion
 
+    //region Fetch Task
     class CastCardFetchAsyncTask extends AsyncTask<Void, Void, List<CastCard>> {
 
         @Override
@@ -137,26 +189,10 @@ public class CardListPresenter {
 
         @Override
         protected void onPostExecute(List<CastCard> castCards) {
-            listModelInterface.addCardList(castCards);
-            viewInterface.hideProgress();
+            adapter.replace(castCards);
+            loadingProgress.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     }
-
-    public interface ViewInterface {
-        void showProgress();
-
-        void hideProgress();
-
-        void showCast(String cardTitle, String cardUrl);
-    }
-
-    public interface ListModelInterface {
-        void onSaveInstanceState(Bundle outState);
-
-        void restoreSavedState(Bundle savedInstanceState);
-
-        void addCardList(List<CastCard> castCardList);
-
-        CastCard getCastAtPosition(int position);
-    }
+    //endregion
 }

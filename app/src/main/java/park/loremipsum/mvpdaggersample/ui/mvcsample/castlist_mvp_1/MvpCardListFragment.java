@@ -15,31 +15,32 @@ import butterknife.Bind;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.ui.card.CardActivity;
-import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.CastCardAdapter;
+import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.MvcCastCardAdapter;
 import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusProvider;
 
-public class CardListFragment extends Fragment implements CardListPresenter.ViewInterface {
-    public static final String TAG = CardListFragment.class.getSimpleName();
+public class MvpCardListFragment extends Fragment implements MvpCardListPresenter.ViewInterface {
+    public static final String TAG = MvpCardListFragment.class.getSimpleName();
 
+    //region View binding
     @Bind(R.id.card_list)
     RecyclerView recyclerView;
     @Bind(R.id.card_list_loading_progress)
     View loadingProgress;
+    //endregion
 
-    private CardListPresenter presenter;
-    private CastCardAdapter adapter;
+    private MvpCardListPresenter presenter;
+    private MvcCastCardAdapter adapter;
 
     //region Factory
-    public static CardListFragment instance() {
-        return new CardListFragment();
+    public static MvpCardListFragment instance() {
+        return new MvpCardListFragment();
     }
 
-    public CardListFragment() {
+    public MvpCardListFragment() {
         // Default Constructor
     }
     //endregion
 
-    //endregion
     //region Life Cycle
     @Nullable
     @Override
@@ -51,7 +52,7 @@ public class CardListFragment extends Fragment implements CardListPresenter.View
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupAdapter();
-        presenter = new CardListPresenter(this);
+        presenter = new MvpCardListPresenter(this);
         if (savedInstanceState != null) {
             adapter.restoreSavedState(savedInstanceState);
             hideProgress();
@@ -62,7 +63,7 @@ public class CardListFragment extends Fragment implements CardListPresenter.View
     }
 
     private void setupAdapter() {
-        adapter = new CastCardAdapter(getContext());
+        adapter = new MvcCastCardAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

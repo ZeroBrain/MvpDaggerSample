@@ -14,22 +14,22 @@ import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.ui.card.CardActivity;
 import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusProvider;
 
-public class CardListFragment extends Fragment implements CardListPresenter.ViewInterface {
-    public static final String TAG = CardListFragment.class.getSimpleName();
+public class Mvp2CardListFragment extends Fragment implements Mvp2CardListPresenter.ViewInterface {
+    public static final String TAG = Mvp2CardListFragment.class.getSimpleName();
 
     @Bind(R.id.card_list)
     RecyclerView recyclerView;
     @Bind(R.id.card_list_loading_progress)
     View loadingProgress;
 
-    private CardListPresenter presenter;
+    private Mvp2CardListPresenter presenter;
 
     //region Factory
-    public static CardListFragment instance() {
-        return new CardListFragment();
+    public static Mvp2CardListFragment instance() {
+        return new Mvp2CardListFragment();
     }
 
-    public CardListFragment() {
+    public Mvp2CardListFragment() {
         // Default Constructor
     }
     //endregion
@@ -45,12 +45,12 @@ public class CardListFragment extends Fragment implements CardListPresenter.View
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final CardListPresenter.ListModelInterface listModelInterface = setupAdapter();
-        presenter = new CardListPresenter(this, listModelInterface, savedInstanceState);
+        final Mvp2CardListPresenter.ListModelInterface listModelInterface = setupAdapter();
+        presenter = new Mvp2CardListPresenter(this, listModelInterface, savedInstanceState);
     }
 
-    private CastCardAdapter setupAdapter() {
-        final CastCardAdapter adapter = new CastCardAdapter(getContext());
+    private Mvp2CastCardAdapter setupAdapter() {
+        final Mvp2CastCardAdapter adapter = new Mvp2CastCardAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

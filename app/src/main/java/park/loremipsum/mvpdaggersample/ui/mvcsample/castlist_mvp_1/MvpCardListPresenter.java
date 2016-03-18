@@ -18,11 +18,11 @@ import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapperImpl;
 
-public class CardListPresenter {
+public class MvpCardListPresenter {
 
     private final ViewInterface viewInterface;
 
-    public CardListPresenter(ViewInterface viewInterface) {
+    public MvpCardListPresenter(ViewInterface viewInterface) {
         this.viewInterface = viewInterface;
     }
 
@@ -30,7 +30,6 @@ public class CardListPresenter {
         final CastCardFetchAsyncTask task = new CastCardFetchAsyncTask();
         task.execute();
     }
-
 
     @SuppressWarnings("unused")
     @Subscribe
