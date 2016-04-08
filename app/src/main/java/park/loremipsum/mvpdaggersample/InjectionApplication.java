@@ -9,27 +9,24 @@ import park.loremipsum.mvpdaggersample.util.dagger.injector.InjectorCreator;
 
 public class InjectionApplication extends Application {
 
+    @VisibleForTesting
     @Getter
-    private InjectorCreator injectorCreator;
+    protected InjectorCreator injectorCreator;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        makeInjectorCreator();
+        injectorCreator = makeInjectorCreator();
         inject();
-    }
-
-    private void makeInjectorCreator() {
-        injectorCreator = new InjectorCreator();
     }
 
     @VisibleForTesting
-    public void changeInjector(InjectorCreator injectorCreator) {
-        this.injectorCreator = injectorCreator;
-        inject();
+    protected InjectorCreator makeInjectorCreator() {
+        return new InjectorCreator();
     }
 
-    private void inject() {
+    @VisibleForTesting
+    protected final void inject() {
         final ApplicationInjector applicationInjector = injectorCreator.makeApplicationInjector(this);
         applicationInjector.inject(this);
     }

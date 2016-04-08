@@ -1,6 +1,7 @@
 package park.loremipsum.mvpdaggersample.ui.castlist;
 
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 
 import com.squareup.otto.Subscribe;
 
@@ -8,12 +9,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import lombok.Getter;
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.ui.common.BasePresenter;
 
 public class CardListPresenter extends BasePresenter {
 
+    @VisibleForTesting
+    @Getter // UnitTest가 정상 동작하는지 보여주기 위한
     @Inject
     ViewInterface viewInterface;
 
