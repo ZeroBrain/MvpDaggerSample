@@ -1,8 +1,5 @@
 package park.loremipsum.mvpdaggersample.dagger.injector;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.dagger.component.TestActivityComponent;
 import park.loremipsum.mvpdaggersample.ui.MainActivity;

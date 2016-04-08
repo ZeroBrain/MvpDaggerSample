@@ -16,7 +16,7 @@ public class TestApplication extends InjectionApplication {
     }
 
     @VisibleForTesting
-    public void changeInjector(InjectorCreator injectorCreator) {
+    public void changeInjectorCreator(InjectorCreator injectorCreator) {
         this.injectorCreator = injectorCreator;
         inject();
     }

@@ -2,15 +2,19 @@ package park.loremipsum.mvpdaggersample.ui.castlist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import javax.inject.Inject;
 
+import lombok.Getter;
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.util.dagger.InjectionFragment;
 
 public class MainHtmlQueryFragment extends InjectionFragment {
     public static final String TAG = MainHtmlQueryFragment.class.getSimpleName();
 
+    @VisibleForTesting
+    @Getter
     @Inject
     MainPageParser pageParser;
 

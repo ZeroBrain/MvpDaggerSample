@@ -15,11 +15,12 @@ import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
 
 /**
+ * 손으로 정성스럽게 Injection
  * Created by hyunwoopark on 2016. 4. 8..
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21, application = TestApplication.class)
-public class TestMainPageParser {
+public class MainPageParserTest {
 
     MainPageParser mainPageParser;
 

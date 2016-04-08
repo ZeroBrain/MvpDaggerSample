@@ -8,7 +8,7 @@ import park.loremipsum.mvpdaggersample.util.dagger.component.FragmentComponent;
 import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerFragment;
 
 @PerFragment
-@Subcomponent(modules = FragmentModule.class)
+@Subcomponent(modules = {FragmentModule.class})
 public interface TestFragmentComponent extends FragmentComponent {
 
     CardListComponent plusCardList();
