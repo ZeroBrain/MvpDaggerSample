@@ -7,26 +7,24 @@ import javax.inject.Inject;
 
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.InjectionApplication;
-import park.loremipsum.mvpdaggersample.util.dagger.injector.ActivityInjector;
+import park.loremipsum.mvpdaggersample.util.dagger.component.ActivityComponent;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 
-public class InjectionActivity extends AppCompatActivity {
+public abstract class InjectionActivity extends AppCompatActivity {
 
     @Getter
-    private ActivityInjector activityInjector;
+    private ActivityComponent activityComponent;
 
     @Inject
     protected EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        inject();
+        final InjectionApplication application = ((InjectionApplication) getApplication());
+        activityComponent = application.getApplicationComponent().plusActivityComponent(new ActivityModule(this));
+        inject(activityComponent);
         super.onCreate(savedInstanceState);
     }
 
-    private void inject() {
-        final InjectionApplication application = ((InjectionApplication) getApplication());
-        activityInjector = application.getInjectorCreator().makeActivityInjector(this);
-        activityInjector.inject(this);
-    }
+    protected abstract void inject(ActivityComponent component);
 }

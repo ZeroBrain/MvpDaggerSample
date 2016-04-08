@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.util.dagger.InjectionFragment;
+import park.loremipsum.mvpdaggersample.util.dagger.component.FragmentComponent;
 
 public class MainHtmlQueryFragment extends InjectionFragment {
     public static final String TAG = MainHtmlQueryFragment.class.getSimpleName();
@@ -20,6 +21,11 @@ public class MainHtmlQueryFragment extends InjectionFragment {
 
     public MainHtmlQueryFragment() {
         // Default Constructor
+    }
+
+    @Override
+    protected void inject(FragmentComponent fragmentComponent) {
+        fragmentComponent.inject(this);
     }
 
     @Override

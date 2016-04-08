@@ -7,16 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import dagger.Lazy;
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.R;
-import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.ui.common.BaseFragment;
+import park.loremipsum.mvpdaggersample.util.dagger.component.FragmentComponent;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 
 public class CardListFragment extends BaseFragment implements CardListPresenter.ViewInterface {
@@ -52,6 +50,11 @@ public class CardListFragment extends BaseFragment implements CardListPresenter.
 
     //endregion
     //region Life Cycle
+    @Override
+    protected void inject(FragmentComponent fragmentComponent) {
+        fragmentComponent.plusCardList().inject(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

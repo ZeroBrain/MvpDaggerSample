@@ -14,12 +14,16 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import park.loremipsum.mvpdaggersample.InjectionApplication;
 import park.loremipsum.mvpdaggersample.R;
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.model.TabMenu;
 import park.loremipsum.mvpdaggersample.ui.castlist.CardListFragment;
 import park.loremipsum.mvpdaggersample.ui.castlist.MainHtmlQueryFragment;
+import park.loremipsum.mvpdaggersample.util.dagger.ActivityModule;
 import park.loremipsum.mvpdaggersample.util.dagger.InjectionActivity;
+import park.loremipsum.mvpdaggersample.util.dagger.component.ActivityComponent;
+import park.loremipsum.mvpdaggersample.util.dagger.component.ApplicationComponent;
 
 public class MainActivity extends InjectionActivity {
 
@@ -30,8 +34,14 @@ public class MainActivity extends InjectionActivity {
 
     //region Life Cycle
     @Override
+    protected void inject(ActivityComponent component) {
+        component.inject(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

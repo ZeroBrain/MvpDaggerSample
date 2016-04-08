@@ -1,36 +1,23 @@
 package park.loremipsum.mvpdaggersample;
 
 import android.app.Application;
-import android.support.annotation.VisibleForTesting;
 
 import lombok.Getter;
-import park.loremipsum.mvpdaggersample.util.dagger.injector.ApplicationInjector;
-import park.loremipsum.mvpdaggersample.util.dagger.injector.InjectorCreator;
+import park.loremipsum.mvpdaggersample.util.dagger.ApplicationModule;
+import park.loremipsum.mvpdaggersample.util.dagger.component.ApplicationComponent;
+import park.loremipsum.mvpdaggersample.util.dagger.component.DaggerApplicationComponent;
 
 public class InjectionApplication extends Application {
 
     @Getter
-    private InjectorCreator injectorCreator;
+    private ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        makeInjectorCreator();
-        inject();
-    }
-
-    private void makeInjectorCreator() {
-        injectorCreator = new InjectorCreator();
-    }
-
-    @VisibleForTesting
-    public void changeInjector(InjectorCreator injectorCreator) {
-        this.injectorCreator = injectorCreator;
-        inject();
-    }
-
-    private void inject() {
-        final ApplicationInjector applicationInjector = injectorCreator.makeApplicationInjector(this);
-        applicationInjector.inject(this);
+        applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .build();
+        applicationComponent.inject(this);
     }
 }
