@@ -17,10 +17,12 @@ import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusP
 public class Mvp2CardListFragment extends Fragment implements Mvp2CardListPresenter.ViewInterface {
     public static final String TAG = Mvp2CardListFragment.class.getSimpleName();
 
+    //region Bind View
     @Bind(R.id.card_list)
     RecyclerView recyclerView;
     @Bind(R.id.card_list_loading_progress)
     View loadingProgress;
+    //endregion
 
     private Mvp2CardListPresenter presenter;
 

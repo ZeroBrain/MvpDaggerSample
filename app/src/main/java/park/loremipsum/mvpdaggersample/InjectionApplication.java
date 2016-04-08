@@ -1,6 +1,7 @@
 package park.loremipsum.mvpdaggersample;
 
 import android.app.Application;
+import android.support.annotation.VisibleForTesting;
 
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.util.dagger.injector.ApplicationInjector;
@@ -14,11 +15,21 @@ public class InjectionApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        makeInjectorCreator();
+        inject();
+    }
+
+    private void makeInjectorCreator() {
+        injectorCreator = new InjectorCreator();
+    }
+
+    @VisibleForTesting
+    public void changeInjector(InjectorCreator injectorCreator) {
+        this.injectorCreator = injectorCreator;
         inject();
     }
 
     private void inject() {
-        injectorCreator = new InjectorCreator();
         final ApplicationInjector applicationInjector = injectorCreator.makeApplicationInjector(this);
         applicationInjector.inject(this);
     }

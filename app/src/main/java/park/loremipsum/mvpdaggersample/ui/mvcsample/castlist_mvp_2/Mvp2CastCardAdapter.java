@@ -26,7 +26,8 @@ import park.loremipsum.mvpdaggersample.ui.mvcsample.castlist_mvc.utils.EventBusP
 import park.loremipsum.mvpdaggersample.ui.common.RecyclerListAdapter;
 import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.ParcelerImpl;
 
-public class Mvp2CastCardAdapter extends RecyclerListAdapter<CastCard, Mvp2CastCardAdapter.CastCardViewHolder> implements Mvp2CardListPresenter.ListModelInterface {
+public class Mvp2CastCardAdapter extends RecyclerListAdapter<CastCard, Mvp2CastCardAdapter.CastCardViewHolder>
+        implements Mvp2CardListPresenter.ListModelInterface {
     private static final String DATA_SET = "dataSet";
 
     private final Context context;
