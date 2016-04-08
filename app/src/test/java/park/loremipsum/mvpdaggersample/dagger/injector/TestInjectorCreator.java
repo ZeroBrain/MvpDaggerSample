@@ -9,7 +9,6 @@ import park.loremipsum.mvpdaggersample.dagger.component.TestActivityComponent;
 import park.loremipsum.mvpdaggersample.dagger.component.TestApplicationComponent;
 import park.loremipsum.mvpdaggersample.dagger.component.TestFragmentComponent;
 import park.loremipsum.mvpdaggersample.dagger.module.TestApplicationModule;
-import park.loremipsum.mvpdaggersample.dagger.module.TestParserModule;
 import park.loremipsum.mvpdaggersample.util.dagger.ActivityModule;
 import park.loremipsum.mvpdaggersample.util.dagger.FragmentModule;
 import park.loremipsum.mvpdaggersample.util.dagger.InjectionActivity;
@@ -21,16 +20,19 @@ import park.loremipsum.mvpdaggersample.util.dagger.injector.InjectorCreator;
 public class TestInjectorCreator extends InjectorCreator {
     private TestApplicationComponent applicationComponent;
 
-    private final List<Object> mockList = new ArrayList<>();
+    public static List<Object> mockList;
 
-    public void addMock(List<Object> mockList) {
-        this.mockList.addAll(mockList);
+    public void addMock(List<Object> mockListForAdd) {
+        mockList.addAll(mockListForAdd);
+    }
+
+    public TestInjectorCreator() {
+        mockList = new ArrayList<>();
     }
 
     public TestApplicationInjector makeApplicationInjector(InjectionApplication application) {
         applicationComponent = DaggerTestApplicationComponent.builder()
-                .testApplicationModule(new TestApplicationModule(application, mockList))
-                .testParserModule(new TestParserModule(mockList))
+                .testApplicationModule(new TestApplicationModule(application))
                 .build();
         return new TestApplicationInjector(applicationComponent);
     }

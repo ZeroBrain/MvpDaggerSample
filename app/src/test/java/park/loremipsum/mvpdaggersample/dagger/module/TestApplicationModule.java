@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import park.loremipsum.mvpdaggersample.InjectionApplication;
+import park.loremipsum.mvpdaggersample.dagger.injector.TestInjectorCreator;
 
 /**
  * Created by hyunwoopark on 2016. 4. 8..
@@ -17,19 +18,16 @@ import park.loremipsum.mvpdaggersample.InjectionApplication;
 @Module
 public class TestApplicationModule {
 
-    private final List<Object> mockList;
-
     private final InjectionApplication application;
 
-    public TestApplicationModule(InjectionApplication application, List<Object> mockList) {
+    public TestApplicationModule(InjectionApplication application) {
         this.application = application;
-        this.mockList = mockList;
     }
 
     @Provides
     @Singleton
     Context provideApplicationContext() {
-        for (Object object : mockList) {
+        for (Object object : TestInjectorCreator.mockList) {
             if (object instanceof Context) {
                 return (Context) object;
             }
@@ -40,7 +38,7 @@ public class TestApplicationModule {
     @Provides
     @Singleton
     Resources provideResources() {
-        for (Object object : mockList) {
+        for (Object object : TestInjectorCreator.mockList) {
             if (object instanceof Resources) {
                 return (Resources) object;
             }

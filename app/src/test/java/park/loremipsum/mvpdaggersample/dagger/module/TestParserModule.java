@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import park.loremipsum.mvpdaggersample.dagger.injector.TestInjectorCreator;
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
@@ -15,16 +16,10 @@ import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
  */
 @Module
 public class TestParserModule {
-    private final List<Object> mockList;
-
-    public TestParserModule(List<Object> mockList) {
-        this.mockList = mockList;
-    }
-
     @Provides
     @Singleton
     MainPageParser provideMainPageParser(JsoupWrapper jsoupWrapper, EventBus bus) {
-        for (Object object : mockList) {
+        for (Object object : TestInjectorCreator.mockList) {
             if (object instanceof MainPageParser) {
                 return (MainPageParser) object;
             }
