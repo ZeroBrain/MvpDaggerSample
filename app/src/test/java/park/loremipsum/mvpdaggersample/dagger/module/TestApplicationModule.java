@@ -3,14 +3,12 @@ package park.loremipsum.mvpdaggersample.dagger.module;
 import android.content.Context;
 import android.content.res.Resources;
 
-import java.util.List;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import park.loremipsum.mvpdaggersample.InjectionApplication;
-import park.loremipsum.mvpdaggersample.dagger.injector.TestInjectorCreator;
+import park.loremipsum.mvpdaggersample.dagger.injector.MockHolder;
 
 /**
  * Created by hyunwoopark on 2016. 4. 8..
@@ -27,22 +25,12 @@ public class TestApplicationModule {
     @Provides
     @Singleton
     Context provideApplicationContext() {
-        for (Object object : TestInjectorCreator.mockList) {
-            if (object instanceof Context) {
-                return (Context) object;
-            }
-        }
-        return application;
+        return MockHolder.returnMockIfExist(application, Context.class);
     }
 
     @Provides
     @Singleton
     Resources provideResources() {
-        for (Object object : TestInjectorCreator.mockList) {
-            if (object instanceof Resources) {
-                return (Resources) object;
-            }
-        }
-        return application.getResources();
+        return MockHolder.returnMockIfExist(application.getResources(), Resources.class);
     }
 }

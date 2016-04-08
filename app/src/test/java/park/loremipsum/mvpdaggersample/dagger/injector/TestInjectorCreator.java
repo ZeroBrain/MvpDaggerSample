@@ -1,8 +1,5 @@
 package park.loremipsum.mvpdaggersample.dagger.injector;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import park.loremipsum.mvpdaggersample.InjectionApplication;
 import park.loremipsum.mvpdaggersample.dagger.component.DaggerTestApplicationComponent;
 import park.loremipsum.mvpdaggersample.dagger.component.TestActivityComponent;
@@ -20,14 +17,8 @@ import park.loremipsum.mvpdaggersample.util.dagger.injector.InjectorCreator;
 public class TestInjectorCreator extends InjectorCreator {
     private TestApplicationComponent applicationComponent;
 
-    public static List<Object> mockList;
-
-    public void addMock(List<Object> mockListForAdd) {
-        mockList.addAll(mockListForAdd);
-    }
-
     public TestInjectorCreator() {
-        mockList = new ArrayList<>();
+        MockHolder.init(new MockHolder());
     }
 
     public TestApplicationInjector makeApplicationInjector(InjectionApplication application) {
@@ -48,4 +39,5 @@ public class TestInjectorCreator extends InjectorCreator {
         final TestFragmentComponent fragmentComponent = activityComponent.plusTestFragmentComponent(new FragmentModule(fragment));
         return new TestFragmentInjector(fragmentComponent);
     }
+
 }

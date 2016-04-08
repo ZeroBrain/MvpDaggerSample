@@ -17,6 +17,7 @@ import java.util.concurrent.CountDownLatch;
 
 import park.loremipsum.mvpdaggersample.BuildConfig;
 import park.loremipsum.mvpdaggersample.TestApplication;
+import park.loremipsum.mvpdaggersample.dagger.injector.MockHolder;
 import park.loremipsum.mvpdaggersample.dagger.injector.TestInjectorCreator;
 import park.loremipsum.mvpdaggersample.domain.castparser.MainPageParser;
 import park.loremipsum.mvpdaggersample.ui.MainActivity;
@@ -41,9 +42,7 @@ public class MainHtmlQueryFragmentTest {
 
         final TestInjectorCreator injectorCreator = new TestInjectorCreator();
 
-        final List<Object> mockList = new ArrayList<>();
-        mockList.add(parser);
-        injectorCreator.addMock(mockList);
+        MockHolder.addMock(MainPageParser.class, parser);
 
         final TestApplication testApplication = (TestApplication) RuntimeEnvironment.application;
         testApplication.changeInjectorCreator(injectorCreator);
