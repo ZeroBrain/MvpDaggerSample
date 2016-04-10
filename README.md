@@ -1,5 +1,5 @@
-# MvpDaggerSample
-Sample project to demonstrate MVP Pattern and Dagger 2
+# Mvp & Dagger 2 & Mockito Sample
+Sample project to demonstrate MVP Pattern and Dagger 2, Mockito
 
 - plain_component branch : 가장 기본적인 Dagger 적용법
 - master branch : Component와 Subcomponent를 변경 할 수 있는 적용법
