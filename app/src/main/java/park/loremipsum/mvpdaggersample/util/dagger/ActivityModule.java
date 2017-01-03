@@ -6,9 +6,10 @@ import android.view.LayoutInflater;
 
 import dagger.Module;
 import dagger.Provides;
-import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerActivity;
+import park.loremipsum.mvpdaggersample.util.dagger.qualifier.ActivityScope;
+import park.loremipsum.mvpdaggersample.util.thirdparty.glide.GlideModule;
 
-@Module
+@Module(includes = {GlideModule.class, FragmentComponentBinder.class})
 public class ActivityModule {
     private final Activity activity;
 
@@ -17,19 +18,19 @@ public class ActivityModule {
     }
 
     @Provides
-    @PerActivity
+    @ActivityScope
     Activity provideActivity() {
         return activity;
     }
 
     @Provides
-    @PerActivity
+    @ActivityScope
     Context provideActivityContext() {
         return activity;
     }
 
     @Provides
-    @PerActivity
+    @ActivityScope
     LayoutInflater provideLayoutInflater() {
         return activity.getLayoutInflater();
     }

@@ -2,14 +2,10 @@ package park.loremipsum.mvpdaggersample;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.VisibleForTesting;
 
-import javax.inject.Inject;
-
 import lombok.Getter;
-import lombok.Setter;
-import park.loremipsum.mvpdaggersample.util.dagger.component.ApplicationComponent;
+import park.loremipsum.mvpdaggersample.util.dagger.ApplicationComponent;
 import park.loremipsum.mvpdaggersample.util.dagger.injector.ApplicationInjector;
 import park.loremipsum.mvpdaggersample.util.dagger.injector.InjectorCreator;
 

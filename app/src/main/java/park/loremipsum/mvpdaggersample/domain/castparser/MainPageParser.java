@@ -20,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 import park.loremipsum.mvpdaggersample.model.CastCard;
 import park.loremipsum.mvpdaggersample.model.TabMenu;
 import park.loremipsum.mvpdaggersample.model.TopMenu;
-import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerFragment;
+import park.loremipsum.mvpdaggersample.util.dagger.qualifier.FragmentScope;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupWrapper;
 
 @Slf4j
-@PerFragment
+@FragmentScope
 public class MainPageParser {
     private final JsoupWrapper jsoupWrapper;
     private final EventBus bus;

@@ -1,4 +1,4 @@
-package park.loremipsum.mvpdaggersample.ui.card;
+package park.loremipsum.mvpdaggersample.ui;
 
 import android.app.Activity;
 import android.content.Intent;

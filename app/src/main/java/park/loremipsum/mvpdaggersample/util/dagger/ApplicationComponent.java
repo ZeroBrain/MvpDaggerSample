@@ -1,29 +1,20 @@
-package park.loremipsum.mvpdaggersample.util.dagger.component;
+package park.loremipsum.mvpdaggersample.util.dagger;
 
+import java.util.Map;
+
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import dagger.Component;
 import park.loremipsum.mvpdaggersample.InjectionApplication;
-import park.loremipsum.mvpdaggersample.domain.castparser.ParserModule;
 import park.loremipsum.mvpdaggersample.ui.legacysample.LegacyModel;
-import park.loremipsum.mvpdaggersample.util.dagger.ActivityModule;
-import park.loremipsum.mvpdaggersample.util.dagger.ApplicationModule;
-import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBusModule;
-import park.loremipsum.mvpdaggersample.util.thirdparty.jsoup.JsoupModule;
-import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.ParcelerModule;
 
 @Singleton
-@Component(modules = {ApplicationModule.class,
-        ParserModule.class,
-        EventBusModule.class,
-        JsoupModule.class,
-        ParcelerModule.class})
+@Component(modules = {ApplicationModule.class, ActivityComponentBinder.class})
 public interface ApplicationComponent {
 
-    /**
-     * Subcomponents
-     */
-    ActivityComponent plusActivityComponent(ActivityModule activityModule);
+    // ActivityComponent Builders
+    Map<Class<?>, Provider<ActivityComponentBuilder>> activityComponentBuilderMap();
 
     /**
      * Members-injection methods

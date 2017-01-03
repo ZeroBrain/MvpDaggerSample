@@ -4,12 +4,12 @@ import android.app.Activity;
 
 import dagger.Module;
 import dagger.Provides;
-import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerActivity;
+import park.loremipsum.mvpdaggersample.util.dagger.qualifier.ActivityScope;
 
 @Module
 public class GlideModule {
     @Provides
-    @PerActivity
+    @ActivityScope
     GlideWrapper provideGlideWrapper(Activity activity) {
         return new GlideWrapperImpl(activity);
     }

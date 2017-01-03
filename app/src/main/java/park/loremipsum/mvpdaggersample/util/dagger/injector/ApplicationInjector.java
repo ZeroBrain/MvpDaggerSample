@@ -2,7 +2,7 @@ package park.loremipsum.mvpdaggersample.util.dagger.injector;
 
 import lombok.Getter;
 import park.loremipsum.mvpdaggersample.InjectionApplication;
-import park.loremipsum.mvpdaggersample.util.dagger.component.ApplicationComponent;
+import park.loremipsum.mvpdaggersample.util.dagger.ApplicationComponent;
 
 public class ApplicationInjector {
 

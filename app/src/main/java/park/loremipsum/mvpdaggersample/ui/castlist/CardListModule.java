@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 
 import dagger.Module;
 import dagger.Provides;
-import park.loremipsum.mvpdaggersample.util.dagger.qualifier.PerFragment;
+import park.loremipsum.mvpdaggersample.util.dagger.qualifier.FragmentScope;
 import park.loremipsum.mvpdaggersample.util.thirdparty.eventbus.EventBus;
 import park.loremipsum.mvpdaggersample.util.thirdparty.glide.GlideWrapper;
 import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.Parceler;
@@ -16,13 +16,13 @@ import park.loremipsum.mvpdaggersample.util.thirdparty.parceler.Parceler;
 @Module
 public class CardListModule {
     @Provides
-    @PerFragment
+    @FragmentScope
     CardListPresenter.ViewInterface provideViewInterface(Fragment fragment) {
         return (CardListPresenter.ViewInterface) fragment;
     }
 
     @Provides
-    @PerFragment
+    @FragmentScope
     CastCardAdapter provideCastCardAdapter(Parceler parceler,
                                            GlideWrapper glideWrapper,
                                            LayoutInflater layoutInflater,
@@ -31,7 +31,7 @@ public class CardListModule {
     }
 
     @Provides
-    @PerFragment
+    @FragmentScope
     RecyclerView.LayoutManager providesLinearLayoutManager(Activity activity) {
         return new LinearLayoutManager(activity);
     }

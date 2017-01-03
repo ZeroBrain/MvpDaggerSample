@@ -26,7 +26,7 @@ public class InjectionActivity extends AppCompatActivity {
 
     private void inject() {
         final InjectionApplication application = ((InjectionApplication) getApplication());
-        activityInjector = application.getInjectorCreator().makeActivityInjector(this);
+        activityInjector = application.getInjectorCreator().makeActivityInjector();
         activityInjector.inject(this);
     }
 }
